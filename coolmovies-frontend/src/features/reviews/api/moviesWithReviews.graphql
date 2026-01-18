@@ -1,0 +1,29 @@
+query MoviesWithReviews {
+  allMovies(orderBy: [TITLE_ASC]) {
+    nodes {
+      id
+      title
+      imgUrl
+      releaseDate
+      movieDirectorByMovieDirectorId {
+        name
+      }
+      movieReviewsByMovieId {
+        nodes {
+          id
+          title
+          body
+          rating
+          userByUserReviewerId {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+  currentUser {
+    id
+    name
+  }
+}
