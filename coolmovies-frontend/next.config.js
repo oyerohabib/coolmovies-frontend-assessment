@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+const GRAPHQL_URL =
+  process.env.NEXT_PUBLIC_GRAPHQL_URL || 'http://localhost:5001/graphql';
+
 module.exports = {
   compiler: {
     emotion: true,
@@ -7,7 +10,7 @@ module.exports = {
     return [
       {
         source: '/graphql',
-        destination: 'http://localhost:5001/graphql',
+        destination: GRAPHQL_URL,
       },
     ];
   },
