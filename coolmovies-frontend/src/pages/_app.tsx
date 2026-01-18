@@ -6,6 +6,17 @@ import Head from 'next/head';
 import { createStore } from '../state';
 import { EnhancedStore } from '@reduxjs/toolkit';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { theme } from '../theme';
+import {
+  abrilFatface,
+  lato,
+  rocaBold,
+  rocaBlack,
+  rocaRegular,
+} from '../styles/fonts';
+
+const GRAPHQL_URI = process.env.NEXT_PUBLIC_GRAPHQL_URL || '/graphql';
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   const [store, setStore] = useState<EnhancedStore | null>(null);
@@ -13,7 +24,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
   React.useEffect(() => {
     const client = new ApolloClient({
       cache: new InMemoryCache(),
-      uri: '/graphql',
+      uri: GRAPHQL_URI,
     });
 
     const store = createStore({ epicDependencies: { client } });
@@ -29,11 +40,18 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
         <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       </Head>
-      <ReduxProvider store={store}>
-        <ApolloProvider client={client}>
-          <Component {...pageProps} />
-        </ApolloProvider>
-      </ReduxProvider>
+      <div
+        className={`${abrilFatface.variable} ${lato.variable} ${rocaBold.variable} ${rocaBlack.variable} ${rocaRegular.variable}`}
+      >
+        <ReduxProvider store={store}>
+          <ApolloProvider client={client}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </ApolloProvider>
+        </ReduxProvider>
+      </div>
     </>
   );
 };
